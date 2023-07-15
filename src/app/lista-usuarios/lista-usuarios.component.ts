@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
 import { Usuario } from '../usuario.model';
 
@@ -10,7 +11,7 @@ import { Usuario } from '../usuario.model';
 export class ListaUsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private router: Router, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     this.carregarUsuarios();
@@ -23,12 +24,16 @@ export class ListaUsuariosComponent implements OnInit {
   }
 
   editarUsuario(id: number) {
+    this.router.navigate(['/editar', id]); // Redireciona para a página de edição com o ID do usuário
+  }
+
+  adicionarUsuario() {
+    this.router.navigate(['/adicionar']); // Redireciona para a página de adição de usuário
   }
 
   excluirUsuario(id: number) {
-    this.usuarioService.excluirUsuario(id.toString()).subscribe(() => {
+    this.usuarioService.excluirUsuario(id).subscribe(() => {
       this.carregarUsuarios();
     });
   }
 }
-

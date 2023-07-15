@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from './usuario.model';
 
@@ -7,7 +7,7 @@ import { Usuario } from './usuario.model';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:3000/api/usuarios';
+  private apiUrl = 'http://localhost:3000/api/users'; // Atualize com a URL da sua API
 
   constructor(private http: HttpClient) { }
 
@@ -15,28 +15,21 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  getUsuarioById(id: string): Observable<Usuario> {
+  getUsuarioById(id: number): Observable<Usuario> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Usuario>(url);
   }
 
-  atualizarFotoUsuario(id: string, foto: File): Observable<any> {
-    const url = `${this.apiUrl}/${id}/foto`;
-    const formData = new FormData();
-    formData.append('foto', foto);
-    return this.http.post(url, formData);
+  adicionarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.apiUrl, usuario);
   }
 
-  adicionarUsuario(usuario: Usuario): Observable<any> {
-    return this.http.post(this.apiUrl, usuario);
-  }
-
-  atualizarUsuario(usuario: Usuario): Observable<any> {
+  atualizarUsuario(usuario: Usuario): Observable<Usuario> {
     const url = `${this.apiUrl}/${usuario.id}`;
-    return this.http.put(url, usuario);
+    return this.http.put<Usuario>(url, usuario);
   }
 
-  excluirUsuario(id: string): Observable<any> {
+  excluirUsuario(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }

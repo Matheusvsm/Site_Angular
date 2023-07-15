@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../usuario.service';
 import { Usuario } from '../usuario.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -10,11 +10,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./editar-usuario.component.css'],
 })
 export class EditarUsuarioComponent implements OnInit {
-  usuarioForm: FormGroup;
   usuario: Usuario = {
     id: 0,
     nome: '',
     email: '',
+    // Outros campos do usuário
   };
   novoUsuario = false;
 
@@ -22,12 +22,7 @@ export class EditarUsuarioComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usuarioService: UsuarioService
-  ) {
-    this.usuarioForm = new FormGroup({
-      nome: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-    });
-  }
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -37,26 +32,30 @@ export class EditarUsuarioComponent implements OnInit {
       } else {
         this.usuarioService.getUsuarioById(userId).subscribe(usuario => {
           this.usuario = usuario;
-          this.usuarioForm.patchValue(usuario); 
         });
         this.novoUsuario = false;
       }
     });
   }
 
-  salvarUsuario() {
+  salvarUsuario(form: NgForm) {
+    if (form.invalid) {
+      // Realize as validações necessárias
+      return;
+    }
+
     if (this.novoUsuario) {
-      this.usuarioService.adicionarUsuario(this.usuarioForm.value).subscribe(() => {
-        this.router.navigate(['/']); 
+      this.usuarioService.adicionarUsuario(this.usuario).subscribe(() => {
+        this.router.navigate(['/']); // Redireciona para a lista de usuários
       });
     } else {
-      this.usuarioService.atualizarUsuario(this.usuarioForm.value).subscribe(() => {
-        this.router.navigate(['/']); 
+      this.usuarioService.atualizarUsuario(this.usuario).subscribe(() => {
+        this.router.navigate(['/']); // Redireciona para a lista de usuários
       });
     }
   }
 
   cancelarEdicao() {
-    this.router.navigate(['/']); 
+    this.router.navigate(['/']); // Redireciona para a lista de usuários
   }
 }

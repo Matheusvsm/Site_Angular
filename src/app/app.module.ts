@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ListaUsuariosComponent } from './lista-usuarios/lista-usuarios.component';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component';
 import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,9 +15,12 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule  
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
