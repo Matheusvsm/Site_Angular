@@ -19,9 +19,9 @@ export class EditarUsuarioComponent implements OnInit {
   novoUsuario = false;
 
   constructor(
-    private route: ActivatedRoute,
+   private route: ActivatedRoute,
     private router: Router,
-    private usuarioService: UsuarioService
+   private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
@@ -40,22 +40,22 @@ export class EditarUsuarioComponent implements OnInit {
 
   salvarUsuario(form: NgForm) {
     if (form.invalid) {
-      // Realize as validações necessárias
+      
       return;
     }
 
     if (this.novoUsuario) {
       this.usuarioService.adicionarUsuario(this.usuario).subscribe(() => {
-        this.router.navigate(['/']); // Redireciona para a lista de usuários
+        this.router.navigate(['/']); 
       });
     } else {
       this.usuarioService.atualizarUsuario(this.usuario).subscribe(() => {
-        this.router.navigate(['/']); // Redireciona para a lista de usuários
+        this.router.navigate(['/']); 
       });
     }
   }
 
   cancelarEdicao() {
-    this.router.navigate(['/']); // Redireciona para a lista de usuários
+    this.router.navigate(['/']); 
   }
 }
